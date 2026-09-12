@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IdeaLaunch — Turn a spark into something real</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: {
+              50: '#FDFBF7',
+              100: '#F7F3EB',
+              200: '#EEE8DC',
+              300: '#DFD7C7',
+            },
+            forest: {
+              900: '#0E2922',
+              800: '#14382F',
+              700: '#1B473C',
+              600: '#255D4F',
+              100: '#E4EFEA',
+            },
+            mint: {
+              DEFAULT: '#BEE3D3',
+              soft: '#E8F5EF',
+              border: '#A8D6C2',
+            },
+            coral: {
+              DEFAULT: '#E06953',
+              hover: '#C9533D',
+              light: '#FBECE8',
+            },
+            ink: {
+              heading: '#142822',
+              body: '#384B45',
+              muted: '#657771',
+            }
+          },
+          fontFamily: {
+            serif: ['Fraunces', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            'soft': '0 4px 20px -2px rgba(20, 56, 47, 0.06), 0 2px 6px -1px rgba(20, 56, 47, 0.04)',
+            'card': '0 10px 30px -4px rgba(20, 56, 47, 0.08), 0 4px 8px -2px rgba(20, 56, 47, 0.04)',
+            'elevated': '0 20px 40px -8px rgba(20, 56, 47, 0.12)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #FDFBF7;
+      color: #384B45;
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    }
+    
+    /* Smooth focus outlines for accessibility */
+    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+      outline: 2px solid #E06953;
+      outline-offset: 3px;
+    }
+
+    /* Custom subtle line decorations */
+    .hero-mesh {
+      background-image: radial-gradient(#14382F 0.75px, transparent 0.75px);
+      background-size: 24px 24px;
+      opacity: 0.07;
+    }
+
+    .glass-nav {
+      background-color: rgba(253, 251, 247, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* Pulse wave for pipeline graphic */
+    @keyframes subtlePulse {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.04); opacity: 1; }
+    }
+    .pulse-node {
+      animation: subtlePulse 4s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-mint selection:text-forest-900 min-h-screen flex flex-col">
+
+  <header class="sticky top-0 z-40 w-full glass-nav border-b border-cream-200 transition-all duration-200" id="mainNavbar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 rounded-xl bg-forest-800 flex items-center justify-center text-white shadow-soft group-hover:bg-forest-700 transition">
+            <svg class="w-5 h-5 text-coral transition-transform group-hover:rotate-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+            </svg>
+          </div>
+          <div>
+            <span class="font-serif text-2xl font-bold tracking-tight text-forest-900 block leading-none">IdeaLaunch</span>
+            <span class="text-[11px] font-medium uppercase tracking-widest text-forest-600 block mt-0.5">Student Hub</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden md:flex items-center gap-8 text-[15px] font-medium text-ink-body">
+          <a href="#ideas" class="hover:text-forest-800 transition py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-coral hover:after:w-full after:transition-all">Explore Ideas</a>
+          <a href="#how-it-works" class="hover:text-forest-800 transition py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-coral hover:after:w-full after:transition-all">How It Works</a>
+          <a href="#workshop" class="hover:text-forest-800 transition py-1 relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-coral hover:after:w-full after:transition-all">Workshop</a>
+        </nav>
+
+        <!-- CTA & Mobile Toggle -->
+        <div class="flex items-center gap-3">
+          <button id="openModalBtn" type="button" class="inline-flex items-center gap-2 bg-coral hover:bg-coral-hover text-white text-sm font-semibold px-5 py-2.5 rounded-full shadow-sm hover:shadow-soft transition-all duration-200 active:scale-95">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+            </svg>
+            <span>Share an idea</span>
+          </button>
+
+          <button id="mobileMenuBtn" type="button" class="md:hidden p-2 rounded-lg text-forest-800 hover:bg-cream-100 transition" aria-label="Toggle navigation menu">
+            <svg id="hamburgerIcon" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+            </svg>
+            <svg id="closeMenuIcon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Mobile Dropdown -->
+      <div id="mobileMenu" class="hidden md:hidden py-4 border-t border-cream-200 flex flex-col gap-3 text-base font-medium">
+        <a href="#ideas" class="mobile-nav-link px-3 py-2 rounded-lg hover:bg-cream-100 text-ink-heading">Explore Ideas</a>
+        <a href="#how-it-works" class="mobile-nav-link px-3 py-2 rounded-lg hover:bg-cream-100 text-ink-heading">How It Works</a>
+        <a href="#workshop" class="mobile-nav-link px-3 py-2 rounded-lg hover:bg-cream-100 text-ink-heading">Workshop</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow">
+    
+    <section class="relative pt-12 pb-20 md:pt-20 md:pb-28 overflow-hidden">
+      <div class="absolute inset-0 hero-mesh pointer-events-none"></div>
+      
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          
+          <!-- Left Column: Copy & Actions -->
+          <div class="lg:col-span-7 space-y-7 text-left">
+            <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-forest-100 border border-mint-border text-forest-800 text-xs font-semibold uppercase tracking-wider">
+              <span class="w-2 h-2 rounded-full bg-coral animate-ping"></span>
+              Created for non-technical students
+            </div>
+
+            <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-forest-900 leading-[1.12]">
+              Turn a spark into <span class="text-coral italic font-normal">something real.</span>
+            </h1>
+
+            <p class="text-lg sm:text-xl text-ink-body font-normal max-w-2xl leading-relaxed">
+              You don't need to know how to code to invent the future of your campus or community. IdeaLaunch helps beginners express concepts clearly, find teammates, and build working solutions step-by-step.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+              <a href="#ideas" class="inline-flex items-center justify-center gap-2 bg-forest-800 hover:bg-forest-700 text-white font-semibold px-7 py-3.5 rounded-full shadow-soft hover:shadow-card transition duration-200 text-base text-center">
+                Browse student ideas
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+                </svg>
+              </a>
+
+              <button onclick="document.getElementById('openModalBtn').click()" class="inline-flex items-center justify-center gap-2 bg-cream-100 hover:bg-cream-200 text-forest-900 border border-cream-300 font-semibold px-7 py-3.5 rounded-full transition duration-200 text-base text-center">
+                Submit your idea
+                <svg class="w-4 h-4 text-coral" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Trust proof badges -->
+            <div class="flex items-center gap-6 pt-4 text-xs font-medium text-ink-muted border-t border-cream-200">
+              <div class="flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-forest-700" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                <span>No coding required</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-forest-700" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                <span>Free open workshops</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-forest-700" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                <span>Friendly peer feedback</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5">
+            <div class="relative bg-white/80 backdrop-blur border border-cream-300 p-6 sm:p-8 rounded-3xl shadow-card">
+              <div class="flex items-center justify-between pb-5 mb-6 border-b border-cream-200">
+                <span class="text-xs font-semibold tracking-wider uppercase text-forest-700">The Non-Tech Roadmap</span>
+                <span class="inline-flex items-center text-[11px] font-mono font-medium px-2.5 py-1 bg-mint-soft text-forest-800 rounded-md">
+                  Active Blueprint
+                </span>
+              </div>
+
+              <!-- Pipeline Flow Graphic -->
+              <div class="relative space-y-6">
+                <!-- Vertical connector track -->
+                <div class="absolute left-7 top-6 bottom-6 w-0.5 bg-gradient-to-b from-coral via-forest-600 to-forest-800 opacity-30"></div>
+
+                <!-- Stage 1: Imagine -->
+                <div class="relative flex items-start gap-5 group">
+                  <div class="w-14 h-14 rounded-2xl bg-coral-light border-2 border-coral/30 flex items-center justify-center text-coral shadow-sm shrink-0 z-10 pulse-node">
+                    <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.516 0c.85.493 1.508 1.333 1.508 2.316V18"/>
+                    </svg>
+                  </div>
+                  <div class="pt-1">
+                    <div class="flex items-center gap-2">
+                      <h2 class="text-base font-bold text-forest-900 font-serif">1. Imagine</h2>
+                      <span class="text-xs px-2 py-0.5 rounded-full bg-cream-200 text-forest-800 font-mono">01</span>
+                    </div>
+                    <p class="text-sm text-ink-muted mt-1">Define student pain-points with plain human words, sketches, and clear goals.</p>
+                  </div>
+                </div>
+
+                <!-- Stage 2: Build -->
+                <div class="relative flex items-start gap-5 group">
+                  <div class="w-14 h-14 rounded-2xl bg-forest-100 border-2 border-mint-border flex items-center justify-center text-forest-800 shadow-sm shrink-0 z-10">
+                    <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"/>
+                    </svg>
+                  </div>
+                  <div class="pt-1">
+                    <div class="flex items-center gap-2">
+                      <h2 class="text-base font-bold text-forest-900 font-serif">2. Build</h2>
+                      <span class="text-xs px-2 py-0.5 rounded-full bg-cream-200 text-forest-800 font-mono">02</span>
+                    </div>
+                    <p class="text-sm text-ink-muted mt-1">Assemble screens using modular visual components and simple interactive blocks.</p>
+                  </div>
+                </div>
+
+                <!-- Stage 3: Launch -->
+                <div class="relative flex items-start gap-5 group">
+                  <div class="w-14 h-14 rounded-2xl bg-forest-800 border-2 border-forest-600 flex items-center justify-center text-mint shadow-sm shrink-0 z-10">
+                    <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/>
+                    </svg>
+                  </div>
+                  <div class="pt-1">
+                    <div class="flex items-center gap-2">
+                      <h2 class="text-base font-bold text-forest-900 font-serif">3. Launch</h2>
+                      <span class="text-xs px-2 py-0.5 rounded-full bg-forest-700 text-white font-mono">03</span>
+                    </div>
+                    <p class="text-sm text-ink-muted mt-1">Share a live web link across campus to gather authentic peer reactions.</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Mini interactive preview footer -->
+              <div class="mt-6 pt-4 border-t border-cream-200 bg-cream-50/60 -mx-6 -mb-6 p-4 rounded-b-3xl flex items-center justify-between">
+                <span class="text-xs text-ink-muted flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span> 38 campus ideas launched this term
+                </span>
+                <a href="#how-it-works" class="text-xs font-semibold text-forest-800 hover:text-coral transition">See the method &rarr;</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="border-y border-cream-200 bg-white/60">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-cream-200">
+          
+          <div class="pt-2 md:pt-0">
+            <div class="font-serif text-3xl sm:text-4xl font-bold text-forest-900">420+</div>
+            <div class="text-xs sm:text-sm font-medium text-ink-muted mt-1">Student Ideas Shared</div>
+          </div>
+
+          <div class="pt-2 md:pt-0">
+            <div class="font-serif text-3xl sm:text-4xl font-bold text-coral">86%</div>
+            <div class="text-xs sm:text-sm font-medium text-ink-muted mt-1">Non-Tech Creators</div>
+          </div>
+
+          <div class="pt-4 md:pt-0">
+            <div class="font-serif text-3xl sm:text-4xl font-bold text-forest-900">18</div>
+            <div class="text-xs sm:text-sm font-medium text-ink-muted mt-1">Campus Communities</div>
+          </div>
+
+          <div class="pt-4 md:pt-0">
+            <div class="font-serif text-3xl sm:text-4xl font-bold text-forest-700">100%</div>
+            <div class="text-xs sm:text-sm font-medium text-ink-muted mt-1">Free & Open Access</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="ideas" class="py-20 md:py-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cream-200 text-forest-800 text-xs font-semibold uppercase tracking-wider mb-3">
+            Discovery Board
+          </div>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-forest-900">
+            Explore community concepts
+          </h2>
+          <p class="text-ink-muted mt-2 max-w-xl text-base">
+            Read pitches from fellow learners, give early encouragement, or find an idea you want to help bring into reality.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <span class="text-xs font-semibold text-ink-muted bg-cream-100 px-3 py-1.5 rounded-full border border-cream-200" id="cardCountBadge">
+            Showing 6 ideas
+          </span>
+        </div>
+      </div>
+
+      <div class="bg-white p-4 sm:p-5 rounded-2xl border border-cream-200 shadow-soft mb-10 space-y-4">
+        
+        <!-- Search Input -->
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-ink-muted">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+            </svg>
+          </div>
+          <input 
+            type="text" 
+            id="searchInput"
+            placeholder="Search by title, creator name, or keywords (e.g. food, shuttle, math)..." 
+            class="w-full pl-11 pr-10 py-3 bg-cream-50 border border-cream-200 rounded-xl text-ink-heading placeholder:text-ink-muted/70 text-sm focus:bg-white transition"
+          >
+          <button id="clearSearchBtn" class="hidden absolute inset-y-0 right-0 pr-3.5 flex items-center text-ink-muted hover:text-forest-900" title="Clear search">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Filter Tags -->
+        <div class="flex flex-wrap items-center gap-2 pt-1 border-t border-cream-100">
+          <span class="text-xs font-semibold uppercase tracking-wider text-ink-muted mr-1">Filter by:</span>
+          
+          <button class="filter-btn active px-4 py-1.5 rounded-full text-xs font-semibold transition border border-forest-800 bg-forest-800 text-white" data-category="All">
+            All Concepts
+          </button>
+          <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold transition border border-cream-200 bg-cream-50 text-ink-body hover:bg-cream-100" data-category="Technology">
+            Technology
+          </button>
+          <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold transition border border-cream-200 bg-cream-50 text-ink-body hover:bg-cream-100" data-category="Community">
+            Community
+          </button>
+          <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold transition border border-cream-200 bg-cream-50 text-ink-body hover:bg-cream-100" data-category="Sustainability">
+            Sustainability
+          </button>
+          <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold transition border border-cream-200 bg-cream-50 text-ink-body hover:bg-cream-100" data-category="Education">
+            Education
+          </button>
+        </div>
+      </div>
+
+      <div id="ideasList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <!-- Cards will be injected via JavaScript -->
+      </div>
+
+      <!-- Empty State Fallback -->
+      <div id="noResultsState" class="hidden text-center py-16 px-4 bg-white/60 border border-dashed border-cream-300 rounded-3xl">
+        <div class="w-12 h-12 rounded-full bg-cream-100 text-ink-muted flex items-center justify-center mx-auto mb-4">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.182 16.318A4.486 4.486 0 0012.016 15a4.486 4.486 0 00-3.198 1.318M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z"/>
+          </svg>
+        </div>
+        <h3 class="font-serif text-xl font-bold text-forest-900">No ideas match your criteria</h3>
+        <p class="text-sm text-ink-muted mt-1 max-w-sm mx-auto">Try clearing your search query or selecting "All Concepts" above.</p>
+        <button id="resetFiltersBtn" class="mt-4 px-4 py-2 text-xs font-semibold text-forest-800 bg-mint rounded-full hover:bg-mint-border transition">
+          Reset filters
+        </button>
+      </div>
+
+    </section>
+
+    <section id="how-it-works" class="py-20 md:py-28 bg-forest-900 text-white relative overflow-hidden">
+      <!-- Decorative background glow -->
+      <div class="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-forest-700/30 blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-40 -left-40 w-96 h-96 rounded-full bg-coral/10 blur-3xl pointer-events-none"></div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <span class="px-3.5 py-1.5 rounded-full bg-forest-800 border border-forest-700 text-mint text-xs font-semibold uppercase tracking-wider">
+            Demystifying Tech
+          </span>
+          <h2 class="font-serif text-3xl sm:text-5xl font-bold mt-4 tracking-tight">
+            How ideas become working software
+          </h2>
+          <p class="text-forest-100/80 text-base sm:text-lg mt-4 font-normal">
+            You don't need to write thousands of lines of syntax. Software is simply four intuitive pieces working together. Here is how you can understand every application.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          
+          <!-- Step 1: Idea -->
+          <div class="bg-forest-800/80 border border-forest-700/80 rounded-2xl p-7 flex flex-col justify-between hover:border-mint/40 transition duration-300">
+            <div>
+              <div class="flex items-center justify-between mb-5">
+                <span class="font-mono text-xs text-coral font-bold px-2 py-0.5 rounded bg-coral/10 border border-coral/20">STAGE 01</span>
+                <div class="w-10 h-10 rounded-xl bg-forest-700 flex items-center justify-center text-mint">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125"/>
+                  </svg>
+                </div>
+              </div>
+              <h3 class="font-serif text-xl font-semibold text-white mb-2">1. Idea & Problem</h3>
+              <p class="text-sm text-forest-100/70 leading-relaxed">
+                Before any code, clearly articulate who is suffering and how your product fixes it. The best apps start as one honest observation on paper.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-forest-700 text-xs font-medium text-mint/90">
+              Deliverable: 1-Page Concept Pitch
+            </div>
+          </div>
+
+          <!-- Step 2: Front End -->
+          <div class="bg-forest-800/80 border border-forest-700/80 rounded-2xl p-7 flex flex-col justify-between hover:border-mint/40 transition duration-300">
+            <div>
+              <div class="flex items-center justify-between mb-5">
+                <span class="font-mono text-xs text-coral font-bold px-2 py-0.5 rounded bg-coral/10 border border-coral/20">STAGE 02</span>
+                <div class="w-10 h-10 rounded-xl bg-forest-700 flex items-center justify-center text-mint">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0H3"/>
+                  </svg>
+                </div>
+              </div>
+              <h3 class="font-serif text-xl font-semibold text-white mb-2">2. Front End</h3>
+              <p class="text-sm text-forest-100/70 leading-relaxed">
+                The digital storefront. It's the buttons, text, and graphics people tap on their phone. Modern tools let you construct this visually like LEGO pieces.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-forest-700 text-xs font-medium text-mint/90">
+              Deliverable: Interactive UI Mockup
+            </div>
+          </div>
+
+          <!-- Step 3: Database -->
+          <div class="bg-forest-800/80 border border-forest-700/80 rounded-2xl p-7 flex flex-col justify-between hover:border-mint/40 transition duration-300">
+            <div>
+              <div class="flex items-center justify-between mb-5">
+                <span class="font-mono text-xs text-coral font-bold px-2 py-0.5 rounded bg-coral/10 border border-coral/20">STAGE 03</span>
+                <div class="w-10 h-10 rounded-xl bg-forest-700 flex items-center justify-center text-mint">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 5.625c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125m16.5 5.625c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"/>
+                  </svg>
+                </div>
+              </div>
+              <h3 class="font-serif text-xl font-semibold text-white mb-2">3. Database</h3>
+              <p class="text-sm text-forest-100/70 leading-relaxed">
+                The collective memory. When someone signs up, posts a card, or upvotes, the database securely preserves that information for the next time they visit.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-forest-700 text-xs font-medium text-mint/90">
+              Deliverable: Clean Spreadsheet/Data Schema
+            </div>
+          </div>
+
+          <!-- Step 4: Deployment -->
+          <div class="bg-forest-800/80 border border-forest-700/80 rounded-2xl p-7 flex flex-col justify-between hover:border-mint/40 transition duration-300">
+            <div>
+              <div class="flex items-center justify-between mb-5">
+                <span class="font-mono text-xs text-coral font-bold px-2 py-0.5 rounded bg-coral/10 border border-coral/20">STAGE 04</span>
+                <div class="w-10 h-10 rounded-xl bg-forest-700 flex items-center justify-center text-mint">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-.778.099-1.533.284-2.253"/>
+                  </svg>
+                </div>
+              </div>
+              <h3 class="font-serif text-xl font-semibold text-white mb-2">4. Deployment</h3>
+              <p class="text-sm text-forest-100/70 leading-relaxed">
+                Putting your app onto the open internet. With free hosting services today, you can turn your project files into a public .com link with a single click.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-forest-700 text-xs font-medium text-mint/90">
+              Deliverable: Shareable Public Link
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Workshop Banner inside How It Works -->
+        <div id="workshop" class="mt-16 bg-gradient-to-r from-forest-800 to-forest-700 border border-forest-600 rounded-3xl p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div class="space-y-3 text-left">
+            <span class="text-xs uppercase font-bold tracking-widest text-coral">Free Weekly Live Sessions</span>
+            <h3 class="font-serif text-2xl sm:text-3xl font-bold">Join the "Idea to Prototype" Student Lab</h3>
+            <p class="text-forest-100/80 text-sm sm:text-base max-w-xl">
+              Every Thursday at 6 PM EST. A friendly mentor breaks down web building without intimidating jargon. Bring just your curiosity.
+            </p>
+          </div>
+          <button id="registerWorkshopBtn" class="shrink-0 bg-coral hover:bg-coral-hover text-white font-semibold px-8 py-4 rounded-full transition shadow-md">
+            Reserve a free seat
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-cream-100 border-t border-cream-200 text-ink-body pt-16 pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+        
+        <div class="md:col-span-2 space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-forest-800 flex items-center justify-center text-white">
+              <svg class="w-4 h-4 text-coral" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+              </svg>
+            </div>
+            <span class="font-serif text-xl font-bold tracking-tight text-forest-900">IdeaLaunch</span>
+          </div>
+          <p class="text-sm text-ink-muted max-w-sm">
+            Empowering students from humanities, business, arts, and science to build meaningful technology without fear or prerequisites.
+          </p>
+          <div class="text-xs text-ink-muted">
+            Warmly crafted for universities and student collectives everywhere.
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-forest-900 mb-4 font-mono">Platform</h4>
+          <ul class="space-y-2.5 text-sm">
+            <li><a href="#ideas" class="hover:text-forest-900 transition">Ideas Directory</a></li>
+            <li><a href="#how-it-works" class="hover:text-forest-900 transition">Learning Curriculum</a></li>
+            <li><a href="#workshop" class="hover:text-forest-900 transition">Weekly Workshops</a></li>
+            <li><a href="#" onclick="openShareModal(); return false;" class="text-coral hover:underline font-medium">Submit Concept</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-forest-900 mb-4 font-mono">Community</h4>
+          <ul class="space-y-2.5 text-sm">
+            <li><a href="#workshop" class="hover:text-forest-900 transition">Student Discord</a></li>
+            <li><a href="#how-it-works" class="hover:text-forest-900 transition">No-Code Tooling Guide</a></li>
+            <li><a href="#workshop" class="hover:text-forest-900 transition">Pitch Templates</a></li>
+            <li><a href="#" onclick="showNotification('Honor code: Keep ideas respectful, open, and supportive!'); return false;" class="hover:text-forest-900 transition">Honor Code</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pt-8 border-t border-cream-200/80 flex flex-col sm:flex-row items-center justify-between text-xs text-ink-muted gap-4">
+        <p>&copy; 2026 IdeaLaunch. Open educational platform for creative learners.</p>
+        <div class="flex items-center gap-6">
+          <a href="#" onclick="showNotification('Designed with accessible contrast ratios and semantic HTML.'); return false;" class="hover:text-forest-900 transition">Accessibility</a>
+          <a href="#" onclick="showNotification('Your browser saves submitted cards locally during this preview.'); return false;" class="hover:text-forest-900 transition">Privacy</a>
+          <a href="#" class="hover:text-forest-900 transition">Back to Top &uarr;</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div id="ideaModal" class="fixed inset-0 z-50 hidden overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <!-- Backdrop -->
+    <div id="modalBackdrop" class="fixed inset-0 bg-forest-900/60 backdrop-blur-sm transition-opacity"></div>
+
+    <div class="min-h-screen px-4 flex items-center justify-center p-4 text-center sm:p-0">
+      <div class="relative bg-white rounded-3xl text-left overflow-hidden shadow-elevated transform transition-all sm:my-8 sm:max-w-lg w-full p-6 sm:p-8 border border-cream-300">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-4 mb-6 border-b border-cream-200">
+          <div>
+            <span class="text-xs font-semibold uppercase tracking-wider text-coral font-mono">Contribute to Hub</span>
+            <h3 class="font-serif text-2xl font-bold text-forest-900" id="modalTitle">Share your idea</h3>
+          </div>
+          <button id="closeModalBtn" type="button" class="text-ink-muted hover:text-forest-900 p-2 rounded-full hover:bg-cream-100 transition" aria-label="Close dialog">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Form -->
+        <form id="ideaForm" class="space-y-4" novalidate>
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label for="ideaTitle" class="block text-xs font-semibold uppercase tracking-wider text-ink-heading">Idea Title *</label>
+              <span id="titleCounter" class="text-[11px] text-ink-muted">0/75</span>
+            </div>
+            <input 
+              type="text" 
+              id="ideaTitle" 
+              required 
+              maxlength="75"
+              placeholder="e.g., Campus Bike Sharing or Textbook Swap" 
+              class="w-full px-4 py-2.5 rounded-xl border border-cream-200 bg-cream-50 text-sm focus:bg-white text-ink-heading transition"
+            >
+            <p id="titleError" class="hidden text-xs text-coral mt-1 font-medium">Please provide an idea title (max 75 chars).</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <label for="creatorName" class="block text-xs font-semibold uppercase tracking-wider text-ink-heading">Your Name *</label>
+                <span id="nameCounter" class="text-[11px] text-ink-muted">0/40</span>
+              </div>
+              <input 
+                type="text" 
+                id="creatorName" 
+                required 
+                maxlength="40"
+                placeholder="e.g., Jordan Taylor" 
+                class="w-full px-4 py-2.5 rounded-xl border border-cream-200 bg-cream-50 text-sm focus:bg-white text-ink-heading transition"
+              >
+              <p id="nameError" class="hidden text-xs text-coral mt-1 font-medium">Please enter your name (max 40 chars).</p>
+            </div>
+
+            <div>
+              <label for="ideaCategory" class="block text-xs font-semibold uppercase tracking-wider text-ink-heading mb-1.5">Category *</label>
+              <select id="ideaCategory" required class="w-full px-4 py-2.5 rounded-xl border border-cream-200 bg-cream-50 text-sm focus:bg-white text-ink-heading">
+                <option value="Technology">Technology</option>
+                <option value="Community">Community</option>
+                <option value="Sustainability">Sustainability</option>
+                <option value="Education">Education</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label for="ideaRole" class="block text-xs font-semibold uppercase tracking-wider text-ink-heading">Your Major / Focus <span class="font-normal text-ink-muted lowercase">(optional)</span></label>
+              <span id="roleCounter" class="text-[11px] text-ink-muted">0/50</span>
+            </div>
+            <input 
+              type="text" 
+              id="ideaRole" 
+              maxlength="50"
+              placeholder="e.g., Sophomore • Environmental Studies" 
+              class="w-full px-4 py-2.5 rounded-xl border border-cream-200 bg-cream-50 text-sm focus:bg-white text-ink-heading transition"
+            >
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label for="ideaDescription" class="block text-xs font-semibold uppercase tracking-wider text-ink-heading">Description & Problem Solved *</label>
+              <span id="descCounter" class="text-[11px] text-ink-muted">0/320</span>
+            </div>
+            <textarea 
+              id="ideaDescription" 
+              rows="4" 
+              required 
+              maxlength="320"
+              placeholder="Describe what problem this solves and what kind of support or teammates you are looking for..." 
+              class="w-full px-4 py-2.5 rounded-xl border border-cream-200 bg-cream-50 text-sm focus:bg-white text-ink-heading transition"
+            ></textarea>
+            <p id="descError" class="hidden text-xs text-coral mt-1 font-medium">Please describe your concept (max 320 chars).</p>
+          </div>
+
+          <div class="pt-2 flex items-center justify-end gap-3">
+            <button type="button" id="cancelModalBtn" class="px-5 py-2.5 rounded-full text-sm font-semibold text-ink-muted hover:bg-cream-100 transition">
+              Cancel
+            </button>
+            <button type="submit" class="px-6 py-2.5 rounded-full bg-forest-800 hover:bg-forest-700 text-white text-sm font-semibold transition shadow-sm hover:shadow-soft active:scale-95">
+              Post to community
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <div id="toastBox" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="bg-forest-900 text-white px-5 py-3.5 rounded-2xl shadow-elevated border border-forest-700 flex items-center gap-3">
+      <span class="w-2 h-2 rounded-full bg-coral"></span>
+      <span id="toastMessage" class="text-sm font-medium">Notification message</span>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'idealaunch_student_ideas_v1';
+
+    const defaultSeedIdeas = [
+      {
+        id: 'idea-1',
+        title: 'Campus Pantry Pal',
+        creator: 'Maya Chen',
+        role: 'Junior • Public Health',
+        category: 'Sustainability',
+        categoryColor: 'bg-emerald-50 text-emerald-800 border-emerald-200',
+        description: 'An anonymous SMS and web alert alerting students when surplus catered dining hall food is safely packaged and available for pickup.',
+        upvotes: 48,
+        liked: false,
+        tags: ['Food Waste', 'Nutrition', 'Mobile Web']
+      },
+      {
+        id: 'idea-2',
+        title: 'Late Night SafeWalk Hub',
+        creator: 'Liam O\'Connor',
+        role: 'Sophomore • Political Science',
+        category: 'Community',
+        categoryColor: 'bg-amber-50 text-amber-800 border-amber-200',
+        description: 'A verified student escort matching board so nobody has to walk back across south campus alone from the library past midnight.',
+        upvotes: 93,
+        liked: false,
+        tags: ['Safety', 'Campus Life', 'Geo-locate']
+      },
+      {
+        id: 'idea-3',
+        title: 'StudySphere Study Buddies',
+        creator: 'Ananya Patel',
+        role: 'Freshman • Economics',
+        category: 'Education',
+        categoryColor: 'bg-blue-50 text-blue-800 border-blue-200',
+        description: 'Match with classmates studying for specific course codes who learn with flashcards, whiteboards, or silent focus pomodoro timers.',
+        upvotes: 62,
+        liked: false,
+        tags: ['Study Groups', 'Exams', 'Productivity']
+      },
+      {
+        id: 'idea-4',
+        title: 'DormCraft Swap & Repair',
+        creator: 'David Adebayo',
+        role: 'Senior • Architecture',
+        category: 'Sustainability',
+        categoryColor: 'bg-emerald-50 text-emerald-800 border-emerald-200',
+        description: 'A lending library for basic tools, irons, and micro-appliances along with step-by-step videos on how to fix clothes and dorm furniture.',
+        upvotes: 37,
+        liked: false,
+        tags: ['Circular Economy', 'Mending', 'Tools']
+      },
+      {
+        id: 'idea-5',
+        title: 'Syllabus Sync',
+        creator: 'Elena Rostova',
+        role: 'Junior • Graphic Design',
+        category: 'Technology',
+        categoryColor: 'bg-purple-50 text-purple-800 border-purple-200',
+        description: 'A visual tool that reads standard PDF syllabi and automatically populates Google Calendar with exam warnings 10 days in advance.',
+        upvotes: 114,
+        liked: false,
+        tags: ['Calendar', 'Automation', 'No-Stress']
+      },
+      {
+        id: 'idea-6',
+        title: 'Micro-Internship Guild',
+        creator: 'Marcus Vance',
+        role: 'Senior • English Literature',
+        category: 'Education',
+        categoryColor: 'bg-blue-50 text-blue-800 border-blue-200',
+        description: 'Connecting humanities students with local non-profits for 10-hour writing, social media, and grant research projects.',
+        upvotes: 51,
+        liked: false,
+        tags: ['Careers', 'Community Impact', 'Portfolio']
+      }
+    ];
+
+    // Safe localStorage loading with fallback
+    function loadIdeas() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            return parsed;
+          }
+        }
+      } catch (err) {
+        console.warn('localStorage read unavailable, falling back to initial data', err);
+      }
+      return [...defaultSeedIdeas];
+    }
+
+    function saveIdeas(data) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      } catch (err) {
+        console.warn('localStorage write failed', err);
+      }
+    }
+
+    let ideasState = loadIdeas();
+    let activeFilter = 'All';
+    let searchQuery = '';
+
+    const ideasListContainer = document.getElementById('ideasList');
+    const noResultsState = document.getElementById('noResultsState');
+    const searchInput = document.getElementById('searchInput');
+    const clearSearchBtn = document.getElementById('clearSearchBtn');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const cardCountBadge = document.getElementById('cardCountBadge');
+    const resetFiltersBtn = document.getElementById('resetFiltersBtn');
+
+    // Modal elements
+    const ideaModal = document.getElementById('ideaModal');
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const openModalBtn = document.getElementById('openModalBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const cancelModalBtn = document.getElementById('cancelModalBtn');
+    const ideaForm = document.getElementById('ideaForm');
+
+    // Inputs & Error elements
+    const ideaTitleInput = document.getElementById('ideaTitle');
+    const creatorNameInput = document.getElementById('creatorName');
+    const ideaCategorySelect = document.getElementById('ideaCategory');
+    const ideaRoleInput = document.getElementById('ideaRole');
+    const ideaDescInput = document.getElementById('ideaDescription');
+
+    const titleCounter = document.getElementById('titleCounter');
+    const nameCounter = document.getElementById('nameCounter');
+    const roleCounter = document.getElementById('roleCounter');
+    const descCounter = document.getElementById('descCounter');
+
+    const titleError = document.getElementById('titleError');
+    const nameError = document.getElementById('nameError');
+    const descError = document.getElementById('descError');
+
+    // Mobile nav elements
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const hamburgerIcon = document.getElementById('hamburgerIcon');
+    const closeMenuIcon = document.getElementById('closeMenuIcon');
+
+    // Workshop CTA
+    const registerWorkshopBtn = document.getElementById('registerWorkshopBtn');
+
+    function getCategoryBadgeClass(category) {
+      switch (category) {
+        case 'Technology':
+          return 'bg-purple-50 text-purple-800 border-purple-200';
+        case 'Community':
+          return 'bg-amber-50 text-amber-800 border-amber-200';
+        case 'Sustainability':
+          return 'bg-emerald-50 text-emerald-800 border-emerald-200';
+        case 'Education':
+          return 'bg-blue-50 text-blue-800 border-blue-200';
+        default:
+          return 'bg-cream-100 text-forest-800 border-cream-200';
+      }
+    }
+
+    // Robust text escaping for all user-generated content
+    function escapeHtml(str) {
+      if (str == null) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    let toastTimer = null;
+    function showNotification(msg) {
+      const toast = document.getElementById('toastBox');
+      const toastMessage = document.getElementById('toastMessage');
+      if (!toast || !toastMessage) return;
+
+      if (toastTimer) clearTimeout(toastTimer);
+
+      toastMessage.textContent = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3500);
+    }
+
+    function renderIdeas() {
+      const q = searchQuery.toLowerCase().trim();
+
+      // Combined Category AND Search filter execution
+      const filtered = ideasState.filter(item => {
+        const matchesCategory = activeFilter === 'All' || item.category === activeFilter;
+        
+        const titleMatch = (item.title || '').toLowerCase().includes(q);
+        const creatorMatch = (item.creator || '').toLowerCase().includes(q);
+        const descMatch = (item.description || '').toLowerCase().includes(q);
+        const tagsMatch = item.tags && item.tags.some(t => t.toLowerCase().includes(q));
+
+        const matchesSearch = !q || titleMatch || creatorMatch || descMatch || tagsMatch;
+        return matchesCategory && matchesSearch;
+      });
+
+      // Update count badge
+      cardCountBadge.textContent = `Showing ${filtered.length} idea${filtered.length === 1 ? '' : 's'}`;
+
+      // Handle empty state
+      if (filtered.length === 0) {
+        ideasListContainer.innerHTML = '';
+        noResultsState.classList.remove('hidden');
+        return;
+      }
+
+      noResultsState.classList.add('hidden');
+
+      // Generate card markup
+      ideasListContainer.innerHTML = filtered.map(idea => {
+        const badgeColor = idea.categoryColor || getCategoryBadgeClass(idea.category);
+        const isLiked = Boolean(idea.liked);
+        const likedClass = isLiked 
+          ? 'bg-coral text-white border-coral shadow-sm ring-2 ring-coral/20' 
+          : 'bg-cream-50 text-ink-body border-cream-200 hover:border-coral/40';
+
+        return `
+          <article class="bg-white rounded-2xl p-6 sm:p-7 border border-cream-200 shadow-soft hover:shadow-card hover:-translate-y-1 transition-all duration-200 flex flex-col justify-between group">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-4">
+                <span class="text-xs font-semibold px-3 py-1 rounded-full border ${badgeColor}">
+                  ${escapeHtml(idea.category)}
+                </span>
+
+                <button 
+                  onclick="toggleUpvote('${escapeHtml(idea.id)}')"
+                  type="button" 
+                  class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border transition active:scale-90 ${likedClass}"
+                  title="${isLiked ? 'Remove like' : 'Endorse this concept'}"
+                  aria-label="${isLiked ? 'Liked by you' : 'Like idea'}"
+                >
+                  <svg class="w-3.5 h-3.5 ${isLiked ? 'fill-current' : 'fill-none'} stroke-current" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5L12 3m0 0l7.5 7.5M12 3v18"/>
+                  </svg>
+                  <span>${Number(idea.upvotes) || 0}</span>
+                </button>
+              </div>
+
+              <h3 class="font-serif text-xl font-bold text-forest-900 group-hover:text-forest-700 transition leading-snug">
+                ${escapeHtml(idea.title)}
+              </h3>
+              
+              <div class="flex items-center gap-2 mt-1.5 text-xs text-ink-muted">
+                <span class="font-semibold text-forest-800">${escapeHtml(idea.creator)}</span>
+                ${idea.role ? `<span>•</span><span>${escapeHtml(idea.role)}</span>` : ''}
+              </div>
+
+              <p class="text-ink-body text-sm mt-4 leading-relaxed font-normal">
+                ${escapeHtml(idea.description)}
+              </p>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-cream-100 flex items-center justify-between">
+              <div class="flex flex-wrap gap-1.5">
+                ${(idea.tags || [idea.category, 'Prototype']).map(tag => `
+                  <span class="text-[11px] font-medium bg-cream-50 text-ink-muted px-2 py-0.5 rounded-md border border-cream-200">
+                    #${escapeHtml(tag)}
+                  </span>
+                `).join('')}
+              </div>
+              
+              <button 
+                onclick="offerAssistance('${escapeHtml(idea.id)}')"
+                class="text-xs font-semibold text-forest-800 hover:text-coral transition ml-2 shrink-0 flex items-center gap-1"
+              >
+                <span>Connect</span>
+                <span aria-hidden="true">&rarr;</span>
+              </button>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    // Like toggle: increments/decrements once per click and saves to localStorage
+    window.toggleUpvote = function(id) {
+      const item = ideasState.find(i => i.id === id);
+      if (!item) return;
+
+      if (item.liked) {
+        item.liked = false;
+        item.upvotes = Math.max(0, (item.upvotes || 1) - 1);
+        showNotification(`Removed endorsement for "${item.title}"`);
+      } else {
+        item.liked = true;
+        item.upvotes = (item.upvotes || 0) + 1;
+        showNotification(`You endorsed "${item.title}"!`);
+      }
+      
+      saveIdeas(ideasState);
+      renderIdeas();
+    };
+
+    window.offerAssistance = function(id) {
+      const item = ideasState.find(i => i.id === id);
+      if (item) {
+        showNotification(`Interest shared! We'll notify ${item.creator} about your collaboration request.`);
+      }
+    };
+
+    // Live search input handling
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      if (searchQuery.trim().length > 0) {
+        clearSearchBtn.classList.remove('hidden');
+      } else {
+        clearSearchBtn.classList.add('hidden');
+      }
+      renderIdeas();
+    });
+
+    clearSearchBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      searchQuery = '';
+      clearSearchBtn.classList.add('hidden');
+      searchInput.focus();
+      renderIdeas();
+    });
+
+    // Category button filter switching
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => {
+          b.classList.remove('active', 'bg-forest-800', 'text-white', 'border-forest-800');
+          b.classList.add('bg-cream-50', 'text-ink-body', 'border-cream-200');
+        });
+
+        btn.classList.add('active', 'bg-forest-800', 'text-white', 'border-forest-800');
+        btn.classList.remove('bg-cream-50', 'text-ink-body', 'border-cream-200');
+
+        activeFilter = btn.getAttribute('data-category');
+        renderIdeas();
+      });
+    });
+
+    // Reset filters button inside empty state
+    resetFiltersBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      searchQuery = '';
+      clearSearchBtn.classList.add('hidden');
+      activeFilter = 'All';
+
+      filterButtons.forEach(b => {
+        if (b.getAttribute('data-category') === 'All') {
+          b.classList.add('active', 'bg-forest-800', 'text-white', 'border-forest-800');
+          b.classList.remove('bg-cream-50', 'text-ink-body', 'border-cream-200');
+        } else {
+          b.classList.remove('active', 'bg-forest-800', 'text-white', 'border-forest-800');
+          b.classList.add('bg-cream-50', 'text-ink-body', 'border-cream-200');
+        }
+      });
+
+      renderIdeas();
+      showNotification('Filters reset to show all ideas.');
+    });
+
+    // Character limit live counters
+    function setupCounter(input, counterEl, max) {
+      input.addEventListener('input', () => {
+        counterEl.textContent = `${input.value.length}/${max}`;
+      });
+    }
+    setupCounter(ideaTitleInput, titleCounter, 75);
+    setupCounter(creatorNameInput, nameCounter, 40);
+    setupCounter(ideaRoleInput, roleCounter, 50);
+    setupCounter(ideaDescInput, descCounter, 320);
+
+    function clearFormErrors() {
+      titleError.classList.add('hidden');
+      nameError.classList.add('hidden');
+      descError.classList.add('hidden');
+      ideaTitleInput.classList.remove('border-coral');
+      creatorNameInput.classList.remove('border-coral');
+      ideaDescInput.classList.remove('border-coral');
+    }
+
+    function openShareModal() {
+      clearFormErrors();
+      ideaModal.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+      setTimeout(() => ideaTitleInput.focus(), 50);
+    }
+
+    function closeShareModal() {
+      ideaModal.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+      ideaForm.reset();
+      titleCounter.textContent = '0/75';
+      nameCounter.textContent = '0/40';
+      roleCounter.textContent = '0/50';
+      descCounter.textContent = '0/320';
+      clearFormErrors();
+    }
+
+    openModalBtn.addEventListener('click', openShareModal);
+    closeModalBtn.addEventListener('click', closeShareModal);
+    cancelModalBtn.addEventListener('click', closeShareModal);
+    modalBackdrop.addEventListener('click', closeShareModal);
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !ideaModal.classList.contains('hidden')) {
+        closeShareModal();
+      }
+    });
+
+    // Validating required fields & maximum bounds on submission
+    ideaForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      clearFormErrors();
+
+      const title = ideaTitleInput.value.trim();
+      const creator = creatorNameInput.value.trim();
+      const category = ideaCategorySelect.value;
+      const role = ideaRoleInput.value.trim() || 'Student Creator';
+      const description = ideaDescInput.value.trim();
+
+      let hasError = false;
+
+      if (!title || title.length > 75) {
+        titleError.classList.remove('hidden');
+        ideaTitleInput.classList.add('border-coral');
+        hasError = true;
+      }
+
+      if (!creator || creator.length > 40) {
+        nameError.classList.remove('hidden');
+        creatorNameInput.classList.add('border-coral');
+        hasError = true;
+      }
+
+      if (!description || description.length < 10 || description.length > 320) {
+        descError.classList.remove('hidden');
+        ideaDescInput.classList.add('border-coral');
+        hasError = true;
+      }
+
+      if (hasError) return;
+
+      const newIdea = {
+        id: 'idea-' + Date.now(),
+        title,
+        creator,
+        role,
+        category,
+        categoryColor: getCategoryBadgeClass(category),
+        description,
+        upvotes: 1,
+        liked: true,
+        tags: [category, 'New']
+      };
+
+      // Insert at the very top of the board
+      ideasState.unshift(newIdea);
+      saveIdeas(ideasState);
+
+      closeShareModal();
+
+      // Reset filter to 'All' or match category so new idea is visible immediately
+      if (activeFilter !== 'All' && activeFilter !== category) {
+        activeFilter = 'All';
+        filterButtons.forEach(b => {
+          if (b.getAttribute('data-category') === 'All') {
+            b.classList.add('active', 'bg-forest-800', 'text-white', 'border-forest-800');
+            b.classList.remove('bg-cream-50', 'text-ink-body', 'border-cream-200');
+          } else {
+            b.classList.remove('active', 'bg-forest-800', 'text-white', 'border-forest-800');
+            b.classList.add('bg-cream-50', 'text-ink-body', 'border-cream-200');
+          }
+        });
+      }
+
+      if (searchQuery) {
+        searchInput.value = '';
+        searchQuery = '';
+        clearSearchBtn.classList.add('hidden');
+      }
+
+      renderIdeas();
+      showNotification('Idea posted to the top of the community board!');
+
+      const ideasSection = document.getElementById('ideas');
+      if (ideasSection) {
+        ideasSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+
+    mobileMenuBtn.addEventListener('click', () => {
+      const isExpanded = mobileMenu.classList.toggle('hidden');
+      if (isExpanded) {
+        hamburgerIcon.classList.remove('hidden');
+        closeMenuIcon.classList.add('hidden');
+      } else {
+        hamburgerIcon.classList.add('hidden');
+        closeMenuIcon.classList.remove('hidden');
+      }
+    });
+
+    document.querySelectorAll('.mobile-nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        hamburgerIcon.classList.remove('hidden');
+        closeMenuIcon.classList.add('hidden');
+      });
+    });
+
+    registerWorkshopBtn.addEventListener('click', () => {
+      showNotification('Seat saved! Check your student inbox for the Thursday link.');
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderIdeas();
+    });
+  </script>
+</body>
+</html>
